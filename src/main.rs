@@ -8,21 +8,41 @@ mod settings;
 #[tokio::main]
 async fn main() {
     env_logger::init();
-    let settings = Config::builder()
+    let config = Config::builder()
         .add_source(config::File::with_name("config/default"))
         .build();
 
-    let bucket_name = settings.as_ref().unwrap().get::<String>("aws.bucket_name");
-    let object_key = settings.as_ref().unwrap().get::<String>("aws.object_key");
-    let profile_name = settings.as_ref().unwrap().get::<String>("aws.profile_name");
+    let profile_name = config.as_ref().unwrap().get::<String>("aws.profile_name");
+    let client: Client = get_s3_client(profile_name.unwrap()).await;
 
+    let object_size: i64 = get_s3_object_size(client, &config.unwrap()).await;
+    println!("object size: {}", object_size);
+}
+
+async fn get_s3_object_size(client: Client, configs: &Config) -> i64 {
+    let bucket_name = configs.get::<String>("aws.bucket_name").unwrap();
+    let object_key = configs.get::<String>("aws.object_key").unwrap();
+
+    let head_object = client
+        .head_object()
+        .bucket(bucket_name)
+        .key(object_key.as_str())
+        .send()
+        .await;
+    let object_size: i64 = head_object.as_ref().unwrap().content_length.unwrap();
+    println!("size of {} object is: {}", object_key, object_size);
+    println!("head object: {:?}", head_object);
+    object_size
+}
+
+async fn get_s3_client(profile_name: String) -> Client {
     let credentials_provider = DefaultCredentialsChain::builder()
-        .profile_name(profile_name.as_ref().unwrap().as_str())
+        .profile_name(profile_name.as_str())
         .build()
         .await;
 
     let region_provider = DefaultRegionChain::builder()
-        .profile_name(profile_name.unwrap().as_str())
+        .profile_name(profile_name.as_str())
         .build();
 
     let aws_config = aws_config::from_env()
@@ -30,14 +50,6 @@ async fn main() {
         .region(region_provider)
         .load()
         .await;
-    let client = Client::new(&aws_config);
-    let head_object = client
-        .head_object()
-        .bucket(bucket_name.unwrap())
-        .key(object_key.as_ref().unwrap())
-        .send()
-        .await;
-    let object_size: i64 = head_object.as_ref().unwrap().content_length.unwrap();
-    println!("size of {} object is: {}", object_key.unwrap(), object_size);
-    println!("head object: {:?}", head_object);
+
+    Client::new(&aws_config)
 }
