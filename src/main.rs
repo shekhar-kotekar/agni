@@ -1,10 +1,7 @@
 use aws_config::default_provider::credentials::DefaultCredentialsChain;
 use aws_config::default_provider::region::DefaultRegionChain;
-use aws_config::profile::profile_file::{ProfileFileKind, ProfileFiles};
-use aws_config::BehaviorVersion;
 use aws_sdk_s3::Client;
 use config::Config;
-use std::ffi::c_long;
 
 mod settings;
 
@@ -17,15 +14,17 @@ async fn main() {
 
     let bucket_name = settings.as_ref().unwrap().get::<String>("aws.bucket_name");
     let object_key = settings.as_ref().unwrap().get::<String>("aws.object_key");
+    let profile_name = settings.as_ref().unwrap().get::<String>("aws.profile_name");
 
     let credentials_provider = DefaultCredentialsChain::builder()
-        .profile_name("personal")
+        .profile_name(profile_name.as_ref().unwrap().as_str())
         .build()
         .await;
 
     let region_provider = DefaultRegionChain::builder()
-        .profile_name("personal")
+        .profile_name(profile_name.unwrap().as_str())
         .build();
+
     let aws_config = aws_config::from_env()
         .credentials_provider(credentials_provider)
         .region(region_provider)
@@ -35,8 +34,10 @@ async fn main() {
     let head_object = client
         .head_object()
         .bucket(bucket_name.unwrap())
-        .key(object_key.unwrap())
+        .key(object_key.as_ref().unwrap())
         .send()
         .await;
+    let object_size: i64 = head_object.as_ref().unwrap().content_length.unwrap();
+    println!("size of {} object is: {}", object_key.unwrap(), object_size);
     println!("head object: {:?}", head_object);
 }
