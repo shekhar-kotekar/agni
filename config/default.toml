@@ -1,5 +1,5 @@
 [aws]
-region = "eu-west-1"
+region = "ap-south-1"
 credentials_file = "/home/username/.aws/credentials"
-bucket_name = "my-bucket-name"
-object_key = "my-object-path"
+bucket_name = "agni-1"
+object_key = "chandrashekhar.csv"
