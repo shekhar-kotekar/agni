@@ -1,7 +1,7 @@
 # Agni
 Alternative to Apache Spark written using Rust
 
-![CI/CD Build Status](https://github.com/github/docs/actions/workflows/CI.yml/badge.svg)
+![CI/CD Build Status](https://github.com/github/docs/actions/workflows/CI.yml/badge.svg?event=push)
 
 ## Features
 - [x] Distributed computing
