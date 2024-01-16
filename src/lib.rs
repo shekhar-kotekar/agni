@@ -12,3 +12,13 @@ fn agni(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_sum_as_string() {
+        assert_eq!(sum_as_string(1, 2).unwrap(), "3");
+    }
+}
