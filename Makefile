@@ -1,6 +1,10 @@
 PYTHON_VERSION := 3.9
 CONDA_ENV_NAME := agni
 
+.PHONY python-tests:
+python-tests:
+	python -m pytest -vvrP ./pythons/tests/test_main.py
+
 .PHONY integration-tests:
 integration-tests:
 	cargo fmt --all
