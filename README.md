@@ -24,7 +24,7 @@ to create conda environment.
 
 ### Rust Module
 Steps to build and use Rust module in Python code
-1. If you are on Macbook with M1 chip THEN execute `rustup target add x86_64-apple-darwin` command in shell.
+1. If you are on Macbook with M1 chip THEN execute `rustup target add x86_64-apple-darwin` command in shell. This step needs to be executed only once when you are setting up your development environment.
 2. Execute `make maturin`command to build the Rust module. If this succeeds then you will see `Installed agni-0.1.0` message.
 3. If step 2 is successful then execute `pip list` command, you should see `agni` dependency listed.
 4. Now you can use `agni` in your Python code.
