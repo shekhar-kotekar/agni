@@ -4,13 +4,13 @@ Alternative to Apache Spark written using Rust
 ![CI/CD Build Status](https://github.com/github/docs/actions/workflows/CI.yml/badge.svg?event=push)
 
 ## (Desired) Features
-- [x] Cloud first
-- [x] Kubernetes compatible
-- [x] Python bindings
-- [x] Distributed computing
-- [x] In-memory computation
-- [x] Fault tolerance
-- [x] Lazy evaluation
+- Cloud first
+- Kubernetes compatible
+- Python bindings
+- Distributed computing
+- In-memory computation
+- Fault tolerance
+- Lazy evaluation
 
 ## Getting Started
 ### Prerequisites
@@ -21,3 +21,10 @@ Alternative to Apache Spark written using Rust
 ### Python module
 Execute `make conda-env` command on the terminal to get Python dependencies installed and
 to create conda environment.
+
+### Rust Module
+Steps to build and use Rust module in Python code
+1. If you are on Macbook with M1 chip THEN execute `rustup target add x86_64-apple-darwin` command in shell.
+2. Execute `make maturin`command to build the Rust module. If this succeeds then you will see `Installed agni-0.1.0` message.
+3. If step 2 is successful then execute `pip list` command, you should see `agni` dependency listed.
+4. Now you can use `agni` in your Python code.

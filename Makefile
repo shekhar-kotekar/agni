@@ -9,3 +9,6 @@ conda-env:
 	$(shell conda info --base)/envs/$(CONDA_ENV_NAME)/bin/pre-commit install
 	$(shell conda info --base)/envs/$(CONDA_ENV_NAME)/bin/pre-commit run -a
 	conda activate $(CONDA_ENV_NAME)
+
+.PHONY maturin:
+	maturin develop
