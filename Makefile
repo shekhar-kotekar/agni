@@ -16,3 +16,12 @@ conda-env:
 	$(shell conda info --base)/envs/$(CONDA_ENV_NAME)/bin/pre-commit install
 	$(shell conda info --base)/envs/$(CONDA_ENV_NAME)/bin/pre-commit run -a
 	conda activate $(CONDA_ENV_NAME)
+
+.PHONY maturin:
+maturin:
+	maturin develop
+
+.PHONY test-python:
+test-python:
+	$(shell conda info --base)/envs/$(CONDA_ENV_NAME)/bin/pytest -vvrP ./pythons/tests/
+	$(shell conda info --base)/envs/$(CONDA_ENV_NAME)/bin/pre-commit run -a
