@@ -1,6 +1,13 @@
 PYTHON_VERSION := 3.12
 CONDA_ENV_NAME := agni
 
+.PHONY integration-tests:
+integration-tests:
+	cargo fmt --all
+	maturin develop
+	pre-commit run -a
+	python -m pytest -vvrP ./pythons/tests/test_main.py
+
 .PHONY conda-env:
 conda-env:
 	conda create -n $(CONDA_ENV_NAME) python=$(PYTHON_VERSION) -y
