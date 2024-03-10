@@ -1,5 +1,5 @@
-# Agni
-Alternative to Apache Spark written using Rust
+# Rust to Python bindings
+Goal of this project to learn and test how to create Rust to Python bindings
 
 ![CI/CD Build Status](https://github.com/github/docs/actions/workflows/CI.yml/badge.svg?event=push)
 
@@ -7,8 +7,6 @@ Alternative to Apache Spark written using Rust
 - Cloud first
 - Kubernetes compatible
 - Python bindings
-- Distributed computing
-- In-memory computation
 - Fault tolerance
 - Lazy evaluation
 
